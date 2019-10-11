@@ -21,11 +21,13 @@
   "homepage": "https://github.com/gkampitakis/romanNumerals#readme",
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
+    "@types/mongodb": "^3.3.6",
     "@types/restify": "^8.4.0",
     "ts-node-dev": "^1.0.0-pre.43"
   },
   "dependencies": {
     "dotenv": "^8.1.0",
+    "mongodb": "^3.3.2",
     "restify": "^8.4.0",
     "typescript": "^3.6.4"
   }
