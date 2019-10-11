@@ -1,0 +1,30 @@
+{
+  "name": "romannumerals",
+  "version": "1.0.0",
+  "description": "Roman Numerals Converter Api",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/src/index.js",
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn --transpileOnly index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gkampitakis/romanNumerals.git"
+  },
+  "author": "Georgios Kampitakis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gkampitakis/romanNumerals/issues"
+  },
+  "homepage": "https://github.com/gkampitakis/romanNumerals#readme",
+  "devDependencies": {
+    "@types/restify": "^8.4.0",
+    "ts-node-dev": "^1.0.0-pre.43"
+  },
+  "dependencies": {
+    "restify": "^8.4.0",
+    "typescript": "^3.6.4"
+  }
+}
