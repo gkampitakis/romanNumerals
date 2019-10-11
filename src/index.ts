@@ -1,4 +1,6 @@
 import restify, { Server } from 'restify';
+import Routes from './routes';
+import config from './config';
 
 class App {
   private server: Server;
@@ -6,11 +8,16 @@ class App {
   constructor() {
     this.server = restify.createServer();
     this.startServer();
+    this.setupServer();
+  }
+
+  setupServer() {
+    Routes(this.server);
   }
 
   startServer() {
-    this.server.listen(5000, () => {
-      console.log('Server Listening on 5000');
+    this.server.listen(config.port, () => {
+      console.log(`Server Listening on ${config.port}`);
     });
   }
 }
