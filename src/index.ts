@@ -1,6 +1,7 @@
 import restify, { Server } from 'restify';
 import Routes from './routes';
 import config from './config';
+import Logger from './utils/logger';
 
 class App {
   private server: Server;
@@ -17,7 +18,7 @@ class App {
 
   startServer() {
     this.server.listen(config.port, () => {
-      console.log(`Server Listening on ${config.port}`);
+      Logger.info('App', `Server Listening on port: ${config.port}`);
     });
   }
 }
