@@ -7,7 +7,7 @@
     "start": "node dist/index.js",
     "build": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r ts-node/register tests/**/*.test.ts; exit 0"
   },
   "repository": {
     "type": "git",
@@ -20,9 +20,15 @@
   },
   "homepage": "https://github.com/gkampitakis/romanNumerals#readme",
   "devDependencies": {
+    "@types/chai": "^4.2.3",
     "@types/dotenv": "^6.1.1",
+    "@types/mocha": "^5.2.7",
     "@types/mongodb": "^3.3.6",
+    "@types/node": "^12.7.12",
     "@types/restify": "^8.4.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.2.1",
     "ts-node-dev": "^1.0.0-pre.43"
   },
   "dependencies": {
