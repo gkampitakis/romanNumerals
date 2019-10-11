@@ -14,10 +14,12 @@ const numeralMap: Map<string, number> = new Map([
   ['I', 1]
 ]);
 
-export const ROMAN_REGEX = /^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
+export const ROMAN_REGEX = /^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
 
 export function toRoman(number: number): string {
   let result = '';
+  if (number >= 5000 || number <= 0) return result;
+
   numeralMap.forEach((value, key) => {
     while (number % value < number) {
       result += key;
@@ -30,6 +32,8 @@ export function toRoman(number: number): string {
 
 export function toArabic(number: string): number {
   let result = 0;
+  if (!number || !ROMAN_REGEX.test(number)) return NaN;
+
   numeralMap.forEach((value, key) => {
     while (!number.indexOf(key)) {
       result += value;
