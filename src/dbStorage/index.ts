@@ -6,7 +6,7 @@ class DBStorage {
   public insertDocument(dbCollection: string, document: numeral): Promise<any> {
     return new Promise(async (resolve, reject) => {
       this.createConnection(async (err, client) => {
-        if (err) reject(err);
+        if (err) return reject(err);
         try {
           const db = client.db(config.mongo.name);
 
@@ -25,7 +25,7 @@ class DBStorage {
   public removeDocuments(dbCollection: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.createConnection(async (err, client) => {
-        if (err) reject(err);
+        if (err) return reject(err);
         const db = client.db(config.mongo.name);
 
         try {
@@ -45,7 +45,7 @@ class DBStorage {
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       this.createConnection(async (err, client) => {
-        if (err) reject(err);
+        if (err) return reject(err);
         try {
           const db = client.db(config.mongo.name);
 
