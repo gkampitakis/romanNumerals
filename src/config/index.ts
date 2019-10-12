@@ -9,7 +9,7 @@ _path =
 
 dotenv.config({ path: _path });
 
-export default {
+export const environment = {
   port: process.env.PORT,
   mongo: {
     host: process.env.MONGO_URI,
@@ -20,3 +20,8 @@ export default {
     }
   }
 };
+
+export enum SUPPORTED_NUMERAL_TYPES {
+  ARABIC = 'arabic',
+  ROMAN = 'roman'
+}

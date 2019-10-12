@@ -1,5 +1,5 @@
 import { MongoClient, MongoCallback } from 'mongodb';
-import config from '../config';
+import { environment, SUPPORTED_NUMERAL_TYPES } from '../config';
 import { numeral } from '../interfaces';
 
 class DBStorage {
@@ -8,7 +8,7 @@ class DBStorage {
       this.createConnection(async (err, client) => {
         if (err) return reject(err);
         try {
-          const db = client.db(config.mongo.name);
+          const db = client.db(environment.mongo.name);
 
           const doc = await db.collection(dbCollection).findOne(document);
           if (!doc) await db.collection(dbCollection).insertOne(document);
@@ -26,7 +26,7 @@ class DBStorage {
     return new Promise((resolve, reject) => {
       this.createConnection(async (err, client) => {
         if (err) return reject(err);
-        const db = client.db(config.mongo.name);
+        const db = client.db(environment.mongo.name);
 
         try {
           await db.collection(dbCollection).deleteMany({});
@@ -41,13 +41,13 @@ class DBStorage {
 
   public retrieveDocuments(
     dbCollection: string,
-    query: 'arabic' | 'roman'
+    query: SUPPORTED_NUMERAL_TYPES
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       this.createConnection(async (err, client) => {
         if (err) return reject(err);
         try {
-          const db = client.db(config.mongo.name);
+          const db = client.db(environment.mongo.name);
 
           const doc = await db
             .collection(dbCollection)
@@ -64,8 +64,8 @@ class DBStorage {
 
   private createConnection(callback: MongoCallback<MongoClient>) {
     MongoClient.connect(
-      config.mongo.host as string,
-      config.mongo.options,
+      environment.mongo.host as string,
+      environment.mongo.options,
       callback
     );
   }

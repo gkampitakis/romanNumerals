@@ -1,11 +1,9 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
-import dotenv from 'dotenv';
-
+import { environment } from '../src/config/';
 chai.use(chaiHttp);
-dotenv.config();
 
-const url = `http://localhost:${process.env.PORT}`;
+const url = `http://localhost:${environment.port}`;
 
 describe('GET /roman/:number', function() {
   it('Should return 10 = X', function(done) {

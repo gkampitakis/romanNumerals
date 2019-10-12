@@ -1,5 +1,7 @@
+import { SUPPORTED_NUMERAL_TYPES } from '../config';
+
 export interface numeral {
-  type: 'arabic' | 'roman';
+  type: SUPPORTED_NUMERAL_TYPES;
   value: number | string;
 }
 

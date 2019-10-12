@@ -2,6 +2,8 @@ import { Request, Response } from 'restify';
 import DBStorage from '../../dbStorage';
 import { toArabic, toRoman, ROMAN_REGEX } from './transform';
 import Logger from '../../utils/logger';
+import { SUPPORTED_NUMERAL_TYPES } from '../../config';
+import Helper from '../../utils/helper';
 
 class Controller {
   public RomanToArabic = (req: Request, res: Response) => {
@@ -12,7 +14,7 @@ class Controller {
     const convertedValue = toArabic(value);
 
     DBStorage.insertDocument('numerals', {
-      type: 'arabic',
+      type: SUPPORTED_NUMERAL_TYPES.ARABIC,
       value: convertedValue
     })
       .then(() => {
@@ -34,7 +36,7 @@ class Controller {
     const convertedValue = toRoman(value);
 
     DBStorage.insertDocument('numerals', {
-      type: 'roman',
+      type: SUPPORTED_NUMERAL_TYPES.ROMAN,
       value: convertedValue
     })
       .then(() => {
@@ -49,9 +51,9 @@ class Controller {
   };
 
   public RetrieveAll = (req: Request, res: Response) => {
-    const values = ['arabic', 'roman'];
     const query = req.params.numeralType.toLowerCase();
-    if (values.indexOf(query) === -1)
+
+    if (!Helper.isSupported(query))
       return this.handleError(res, 400, `Incorrect Input: ${query}`);
 
     DBStorage.retrieveDocuments('numerals', query)
