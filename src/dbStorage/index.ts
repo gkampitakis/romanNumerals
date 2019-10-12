@@ -63,7 +63,11 @@ class DBStorage {
   }
 
   private createConnection(callback: MongoCallback<MongoClient>) {
-    MongoClient.connect(config.mongo.host, config.mongo.options, callback);
+    MongoClient.connect(
+      config.mongo.host as string,
+      config.mongo.options,
+      callback
+    );
   }
 }
 
