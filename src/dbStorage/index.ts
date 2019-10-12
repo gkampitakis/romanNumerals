@@ -49,9 +49,18 @@ class DBStorage {
         try {
           const db = client.db(environment.mongo.name);
 
+          const filter: any = {};
+          filter[query] = 1;
+
           const doc = await db
             .collection(dbCollection)
-            .find({ type: query })
+            .find(
+              {},
+              {
+                fields: filter
+              }
+            )
+            .sort({ arabic: 1 })
             .toArray();
           client.close();
           resolve(doc);

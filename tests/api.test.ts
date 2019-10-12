@@ -141,8 +141,8 @@ describe('GET /all/:numeralTypes', function() {
         expect(res).to.have.status(200);
         expect(res.body).not.to.be.empty;
         if (res.body.length) {
-          expect(res.body[0].type).to.be.eq('roman');
-          expect(res.body[0].value).to.be.string;
+          expect(res.body[0]).to.have.property('roman');
+          expect(res.body[0].roman).to.be.string;
         }
         done();
       });
@@ -159,8 +159,8 @@ describe('GET /all/:numeralTypes', function() {
         expect(res).to.have.status(200);
         expect(res.body).not.to.be.empty;
         if (res.body.length) {
-          expect(res.body[0].type).to.be.eq('arabic');
-          expect(res.body[0].value).to.be.an('number');
+          expect(res.body[0]).to.have.property('arabic');
+          expect(res.body[0].arabic).to.be.an('number');
         }
         done();
       });

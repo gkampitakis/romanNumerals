@@ -35,7 +35,7 @@ export function toArabic(number: string): number {
   if (!number || !ROMAN_REGEX.test(number)) return NaN;
 
   numeralMap.forEach((value, key) => {
-    while (!number.indexOf(key)) {
+    while (number.length > 0 && number.indexOf(key) === 0) {
       result += value;
       number = number.replace(key, '');
     }

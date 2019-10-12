@@ -1,8 +1,8 @@
 import { SUPPORTED_NUMERAL_TYPES } from '../config';
 
 export interface numeral {
-  type: SUPPORTED_NUMERAL_TYPES;
-  value: number | string;
+  roman: string;
+  arabic: number;
 }
 
 export interface LogInterface {

@@ -14,8 +14,8 @@ class Controller {
     const convertedValue = toArabic(value);
 
     DBStorage.insertDocument('numerals', {
-      type: SUPPORTED_NUMERAL_TYPES.ARABIC,
-      value: convertedValue
+      arabic: convertedValue,
+      roman: value
     })
       .then(() => {
         res.status(200);
@@ -36,8 +36,8 @@ class Controller {
     const convertedValue = toRoman(value);
 
     DBStorage.insertDocument('numerals', {
-      type: SUPPORTED_NUMERAL_TYPES.ROMAN,
-      value: convertedValue
+      arabic: value,
+      roman: convertedValue
     })
       .then(() => {
         res.status(200);
