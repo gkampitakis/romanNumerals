@@ -1,5 +1,13 @@
 import * as dotenv from 'dotenv';
-dotenv.config();
+import path from 'path';
+
+let _path;
+_path =
+  process.env.NODE_ENV === 'production'
+    ? (_path = path.join(__dirname, '../../../.env.production'))
+    : (_path = path.join(__dirname, '../../.env.development'));
+
+dotenv.config({ path: _path });
 
 export default {
   port: process.env.PORT,

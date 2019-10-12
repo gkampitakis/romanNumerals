@@ -7,8 +7,8 @@
     "node": "10.14.2"
   },
   "scripts": {
-    "prod": "tsc && node dist/src/index.js",
-    "start": "node dist/src/index.js",
+    "prod": "NODE_ENV=production tsc && node dist/src/index.js",
+    "start": "NODE_ENV=production node dist/src/index.js",
     "build": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly src/index.ts",
     "test": "mocha -r ts-node/register tests/**/*.test.ts; exit 0"
