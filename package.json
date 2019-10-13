@@ -30,6 +30,7 @@
     "@types/mongodb": "^3.3.6",
     "@types/node": "^12.7.12",
     "@types/restify": "^8.4.0",
+    "@types/restify-cors-middleware": "^1.0.1",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "mocha": "^6.2.1",
@@ -39,6 +40,7 @@
     "dotenv": "^8.1.0",
     "mongodb": "^3.3.2",
     "restify": "^8.4.0",
+    "restify-cors-middleware": "^1.1.1",
     "typescript": "^3.6.4"
   }
 }

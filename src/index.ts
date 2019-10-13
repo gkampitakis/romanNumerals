@@ -2,6 +2,7 @@ import restify, { Server } from 'restify';
 import Routes from './routes';
 import { environment } from './config';
 import Logger from './utils/logger';
+import corsMiddleware from 'restify-cors-middleware';
 
 class App {
   private server: Server;
@@ -13,11 +14,13 @@ class App {
   }
 
   setupServer() {
-    this.server.use(function crossOrigin(req, res, next) {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-      return next();
+    const cors = corsMiddleware({
+      origins: ['*'],
+      allowHeaders: ['Authorization'],
+      exposeHeaders: ['Authorization']
     });
+    this.server.pre(cors.preflight);
+    this.server.use(cors.actual);
     Routes(this.server);
   }
 
