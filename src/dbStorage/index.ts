@@ -9,15 +9,33 @@ class DBStorage {
         if (err) return reject(err);
         try {
           const db = client.db(environment.mongo.name);
+          await db.collection(dbCollection).insertOne(document);
 
-          const doc = await db.collection(dbCollection).findOne(document);
-          if (!doc) await db.collection(dbCollection).insertOne(document);
-
-          client.close();
           resolve();
         } catch (error) {
           reject(error);
         }
+        client.close();
+      });
+    });
+  }
+
+  public retrieveDocument(
+    dbCollection: string,
+    document: numeral
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.createConnection(async (err, client) => {
+        if (err) reject(err);
+        try {
+          const db = client.db(environment.mongo.name);
+          const doc = await db.collection(dbCollection).findOne(document);
+
+          resolve(doc);
+        } catch (error) {
+          reject(error);
+        }
+        client.close();
       });
     });
   }
@@ -30,11 +48,12 @@ class DBStorage {
 
         try {
           await db.collection(dbCollection).deleteMany({});
-          client.close();
+
           resolve();
         } catch (error) {
           reject(error);
         }
+        client.close();
       });
     });
   }
@@ -62,11 +81,11 @@ class DBStorage {
             )
             .sort({ arabic: 1 })
             .toArray();
-          client.close();
           resolve(doc);
         } catch (error) {
           reject(error);
         }
+        client.close();
       });
     });
   }

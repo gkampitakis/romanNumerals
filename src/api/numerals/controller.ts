@@ -2,52 +2,92 @@ import { Request, Response } from 'restify';
 import DBStorage from '../../dbStorage';
 import { toArabic, toRoman, ROMAN_REGEX } from './transform';
 import Logger from '../../utils/logger';
-import { SUPPORTED_NUMERAL_TYPES } from '../../config';
 import Helper from '../../utils/helper';
+import { numeral } from '../../interfaces';
 
 class Controller {
-  public RomanToArabic = (req: Request, res: Response) => {
+  public RomanToArabic = async (req: Request, res: Response) => {
     const value = req.params.number.toUpperCase();
     if (!value || !ROMAN_REGEX.test(value))
       return this.handleError(res, 400, `Incorrect Input: ${value}`);
 
-    const convertedValue = toArabic(value);
+    try {
+      const doc: numeral = await DBStorage.retrieveDocument('numerals', {
+        roman: value
+      });
 
-    DBStorage.insertDocument('numerals', {
-      arabic: convertedValue,
-      roman: value
-    })
-      .then(() => {
-        res.status(200);
-        res.json({
-          inputValue: value,
-          convertedValue
+      if (doc) {
+        this.handleResponse(
+          res,
+          {
+            inputValue: value,
+            convertedValue: doc.arabic
+          },
+          200,
+          '@GET /arabic/:number'
+        );
+      } else {
+        const convertedValue = toArabic(value);
+        await DBStorage.insertDocument('numerals', {
+          arabic: convertedValue,
+          roman: value
         });
-        Logger.info('Controller', '@GET /roman/:number');
-      })
-      .catch(err => this.handleError(res, 500, err));
+
+        this.handleResponse(
+          res,
+          {
+            inputValue: value,
+            convertedValue
+          },
+          200,
+          '@GET /arabic/:number'
+        );
+      }
+    } catch (error) {
+      this.handleError(res, 500, error);
+    }
   };
 
-  public ArabicToRoman = (req: Request, res: Response) => {
+  public ArabicToRoman = async (req: Request, res: Response) => {
     const value = Number(req.params.number);
     if (!value || !Number.isInteger(value) || value >= 5000 || value < 1)
       return this.handleError(res, 400, `Incorrect Input: ${value}`);
 
-    const convertedValue = toRoman(value);
+    try {
+      const doc: numeral = await DBStorage.retrieveDocument('numerals', {
+        arabic: value
+      });
 
-    DBStorage.insertDocument('numerals', {
-      arabic: value,
-      roman: convertedValue
-    })
-      .then(() => {
-        res.status(200);
-        res.json({
-          inputValue: value,
-          convertedValue
+      if (doc) {
+        this.handleResponse(
+          res,
+          {
+            inputValue: value,
+            convertedValue: doc.roman
+          },
+          200,
+          '@GET /roman/:number'
+        );
+      } else {
+        const convertedValue = toRoman(value);
+        await DBStorage.insertDocument('numerals', {
+          roman: convertedValue,
+          arabic: value
         });
-        Logger.info('Controller', '@GET /arabic/:number');
-      })
-      .catch(err => this.handleError(res, 500, err));
+
+        this.handleResponse(
+          res,
+          {
+            inputValue: value,
+            convertedValue
+          },
+          200,
+          '@GET /roman/:number'
+        );
+      }
+    } catch (error) {
+      this.handleError(res, 500, error);
+    }
   };
 
   public RetrieveAll = (req: Request, res: Response) => {
@@ -85,6 +125,17 @@ class Controller {
     res.status(500);
     error ? res.send(error) : res.json({ message: 'Unknown Error' });
     Logger.error('Controller', error ? error : 'Unknown Error');
+  }
+
+  private handleResponse(
+    res: Response,
+    data: any,
+    status: number,
+    path: string
+  ) {
+    res.status(status);
+    res.json(data);
+    Logger.info('Controller', path);
   }
 }
 
